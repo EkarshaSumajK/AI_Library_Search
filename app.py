@@ -21,23 +21,28 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Professional Library UI CSS
+# Professional Library UI CSS - Light Mode Only
 st.markdown("""
     <style>
+    /* ========================================
+       LIGHT MODE STYLING
+       ======================================== */
+    
     /* Main Layout */
     .main {
-        background-color: #ffffff;
+        background-color: #ffffff !important;
         max-width: 1400px;
         margin: 0 auto;
     }
     
     /* Header */
     .library-header {
-        background: #c99a2c;
+        background: linear-gradient(135deg, #c99a2c 0%, #b8892a 100%);
         color: white;
         padding: 1.5rem 2rem;
         margin: -1rem -1rem 2rem -1rem;
         border-bottom: 3px solid #2c5282;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
     
     .library-title {
@@ -49,27 +54,29 @@ st.markdown("""
     
     .library-subtitle {
         font-size: 0.95rem;
-        color: white;
+        color: rgba(255, 255, 255, 0.95);
         margin-top: 0.25rem;
     }
     
     /* Search Box */
     .stTextInput > div > div > input {
-        border: 2px solid #e2e8f0;
+        border: 2px solid #e2e8f0 !important;
         border-radius: 4px;
         padding: 0.75rem 1rem;
         font-size: 1rem;
+        background-color: #ffffff !important;
+        color: #2d3748 !important;
     }
     
     .stTextInput > div > div > input:focus {
-        border-color: #2c5282;
-        box-shadow: 0 0 0 1px #2c5282;
+        border-color: #2c5282 !important;
+        box-shadow: 0 0 0 1px #2c5282 !important;
     }
     
     /* Buttons */
     .stButton > button {
-        background-color: #2c5282;
-        color: white;
+        background-color: #2c5282 !important;
+        color: white !important;
         font-weight: 500;
         border-radius: 4px;
         border: none;
@@ -79,27 +86,27 @@ st.markdown("""
     }
     
     .stButton > button:hover {
-        background-color: #1a365d;
+        background-color: #1a365d !important;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
     
     /* Book Cards */
     .book-card {
-        background-color: #ffffff;
+        background-color: #ffffff !important;
         padding: 1.5rem;
         border-radius: 4px;
-        border: 1px solid #e2e8f0;
+        border: 1px solid #e2e8f0 !important;
         margin-bottom: 1rem;
         transition: all 0.2s;
     }
     
     .book-card:hover {
-        border-color: #cbd5e0;
+        border-color: #cbd5e0 !important;
         box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
     
     .book-title {
-        color: #1a365d;
+        color: #1a365d !important;
         font-size: 1.15rem;
         font-weight: 600;
         margin-bottom: 0.5rem;
@@ -107,23 +114,23 @@ st.markdown("""
     }
     
     .book-title a {
-        color: #1a365d;
+        color: #1a365d !important;
         text-decoration: none;
     }
     
     .book-title a:hover {
-        color: #2c5282;
+        color: #2c5282 !important;
         text-decoration: underline;
     }
     
     .book-author {
-        color: #4a5568;
+        color: #4a5568 !important;
         font-size: 0.95rem;
         margin-bottom: 0.75rem;
     }
     
     .book-metadata {
-        color: #718096;
+        color: #718096 !important;
         font-size: 0.875rem;
         margin-bottom: 0.75rem;
         display: flex;
@@ -138,7 +145,7 @@ st.markdown("""
     }
     
     .book-description {
-        color: #2d3748;
+        color: #2d3748 !important;
         line-height: 1.6;
         margin-top: 0.75rem;
         font-size: 0.95rem;
@@ -146,8 +153,8 @@ st.markdown("""
     
     .relevance-badge {
         display: inline-block;
-        background-color: #edf2f7;
-        color: #2d3748;
+        background-color: #edf2f7 !important;
+        color: #2d3748 !important;
         padding: 0.25rem 0.75rem;
         border-radius: 12px;
         font-size: 0.8rem;
@@ -157,8 +164,8 @@ st.markdown("""
     
     .view-button {
         display: inline-block;
-        background-color: lightgray;
-        color: white;
+        background-color: #2c5282 !important;
+        color: white !important;
         padding: 0.5rem 1.25rem;
         border-radius: 4px;
         text-decoration: none;
@@ -169,39 +176,39 @@ st.markdown("""
     }
     
     .view-button:hover {
-        background-color: #1a365d;
+        background-color: #1a365d !important;
         text-decoration: none;
-        color: white;
+        color: white !important;
     }
     
     /* Info Boxes */
     .stAlert {
         border-radius: 4px;
-        border-left: 4px solid #2c5282;
+        border-left: 4px solid #2c5282 !important;
     }
     
     /* Metrics */
     div[data-testid="stMetricValue"] {
         font-size: 1.5rem;
-        color: #1a365d;
+        color: #1a365d !important;
     }
     
     /* Tabs/Radio */
     div[data-testid="stRadio"] > div {
-        background-color: #f7fafc;
+        background-color: #f7fafc !important;
         padding: 0.5rem;
         border-radius: 4px;
-        border: 1px solid #e2e8f0;
+        border: 1px solid #e2e8f0 !important;
     }
     
     div[data-testid="stRadio"] > div > label {
         font-weight: 500;
-        color: #2d3748;
+        color: #2d3748 !important;
     }
     
     /* Chat Messages */
     .stChatMessage {
-        background-color: #f7fafc;
+        background-color: #f7fafc !important;
         border-radius: 4px;
         padding: 1rem;
         margin-bottom: 0.5rem;
@@ -211,13 +218,13 @@ st.markdown("""
     hr {
         margin: 2rem 0;
         border: none;
-        border-top: 1px solid #e2e8f0;
+        border-top: 1px solid #e2e8f0 !important;
     }
     
     /* Welcome Section */
     .welcome-section {
-        background-color: #f7fafc;
-        border: 1px solid #e2e8f0;
+        background-color: #f7fafc !important;
+        border: 1px solid #e2e8f0 !important;
         border-radius: 4px;
         padding: 2rem;
         text-align: center;
@@ -225,16 +232,67 @@ st.markdown("""
     }
     
     .welcome-title {
-        color: #1a365d;
+        color: #1a365d !important;
         font-size: 1.5rem;
         font-weight: 600;
         margin-bottom: 1rem;
     }
     
     .welcome-text {
-        color: #4a5568;
+        color: #4a5568 !important;
         font-size: 1rem;
         line-height: 1.6;
+    }
+    
+    /* Chat Welcome Box */
+    .chat-welcome-box {
+        background-color: #e8f4f8 !important;
+        padding: 1.5rem;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+    }
+    
+    .chat-welcome-title {
+        color: #192f59 !important;
+        margin-top: 0;
+    }
+    
+    .chat-welcome-text {
+        color: #666 !important;
+    }
+    
+    /* Footer */
+    .footer-container {
+        text-align: center;
+        padding: 1.5rem;
+        color: #718096 !important;
+        font-size: 0.875rem;
+        background-color: #f7fafc !important;
+        border-radius: 4px;
+        margin-top: 2rem;
+    }
+    
+    .footer-title {
+        font-weight: 600;
+        color: #2d3748 !important;
+        margin-bottom: 0.5rem;
+    }
+    
+    .footer-link {
+        color: #2c5282 !important;
+        text-decoration: none;
+    }
+    
+    .footer-copyright {
+        margin-top: 0.75rem;
+        font-size: 0.8rem;
+        color: #a0aec0 !important;
+    }
+    
+    /* Force override any dark mode attempts */
+    body, .stApp, [data-testid="stAppViewContainer"] {
+        background-color: #ffffff !important;
+        color: #2d3748 !important;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -1173,7 +1231,7 @@ def main():
     st.markdown("""
         <div class="library-header">
             <div class="library-title">National University eLibrary</div>
-            <div class="library-subtitle">Research Methodology Collection - Intelligent Search System</div>
+            <div class="library-subtitle">Intelligent Search System</div>
         </div>
     """, unsafe_allow_html=True)
     
