@@ -912,31 +912,52 @@ def chatbot_tab(rag_system):
         st.session_state.chat_context = []
         st.session_state.processing_message = False
         st.session_state.current_user_input = None
+        st.session_state.chat_input_key = 0  # Key to force input reset
     
-    # Clear chat button at the top
-    col1, col2, col3 = st.columns([1, 1, 4])
+    # Welcome message at the top (always visible)
+    st.markdown("""
+    <div style="background-color: #e8f4f8; padding: 1.5rem; border-radius: 10px; margin-bottom: 1rem;">
+        <h4 style="color: #192f59; margin-top: 0;">👋 Hello! I'm your AI Library Assistant</h4>
+        <p style="color: #666; margin-bottom: 0.5rem;">
+            I can help you discover research methodology books through natural conversation. Ask me questions like:
+        </p>
+        <ul style="color: #666;">
+            <li>"I need books about qualitative research methods"</li>
+            <li>"What resources do you have on dissertation writing?"</li>
+            <li>"Show me highly rated books about research design"</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Chat input with Clear button (matching Search tab layout)
+    col1, col2 = st.columns([5, 1])
     with col1:
-        if st.button("🗑️ Clear Chat", key="clear_chat"):
-            st.session_state.chat_history = []
-            st.session_state.chat_context = []
-            st.session_state.processing_message = False
-            st.session_state.current_user_input = None
+        # Use text_input with dynamic key to force clearing
+        user_input = st.text_input(
+            "Ask a question",
+            placeholder="Ask me anything about books and resources...",
+            key=f"chatbot_text_input_{st.session_state.chat_input_key}"
+        )
+    with col2:
+        st.markdown("<br>", unsafe_allow_html=True)
+        clear_chat = st.button("🗑️ Clear", use_container_width=True, key="clear_chat")
     
-    # Display welcome message
-    if not st.session_state.chat_history and not st.session_state.processing_message:
-        st.markdown("""
-        <div style="background-color: #e8f4f8; padding: 1.5rem; border-radius: 10px; margin-bottom: 1rem;">
-            <h4 style="color: #192f59; margin-top: 0;">👋 Hello! I'm your AI Library Assistant</h4>
-            <p style="color: #666; margin-bottom: 0.5rem;">
-                I can help you discover research methodology books through natural conversation. Ask me questions like:
-            </p>
-            <ul style="color: #666;">
-                <li>"I need books about qualitative research methods"</li>
-                <li>"What resources do you have on dissertation writing?"</li>
-                <li>"Show me highly rated books about research design"</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
+    # Handle clear button
+    if clear_chat:
+        st.session_state.chat_history = []
+        st.session_state.chat_context = []
+        st.session_state.processing_message = False
+        st.session_state.current_user_input = None
+        st.session_state.chat_input_key += 1  # Increment to reset input
+        st.rerun()
+    
+    # Process user input when they press Enter
+    if user_input and user_input.strip():
+        # Set processing flag and store input
+        st.session_state.processing_message = True
+        st.session_state.current_user_input = user_input
+        st.session_state.chat_input_key += 1  # Increment to clear input on next render
+        st.rerun()
     
     # Display chat history in a container to keep it static
     history_container = st.container()
@@ -1042,16 +1063,6 @@ def chatbot_tab(rag_system):
                 st.session_state.processing_message = False
                 st.session_state.current_user_input = None
                 st.rerun()
-    
-    # Chat input
-    user_input = st.chat_input("Ask me anything about books and resources...", key="chatbot_input")
-    
-    # Process user input
-    if user_input:
-        # Set processing flag and store input
-        st.session_state.processing_message = True
-        st.session_state.current_user_input = user_input
-        st.rerun()
 
 
 def generate_chat_response(rag_system, user_question, search_results, chat_context):
