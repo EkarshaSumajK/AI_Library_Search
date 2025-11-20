@@ -21,81 +21,220 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for better UI
+# Professional Library UI CSS
 st.markdown("""
     <style>
+    /* Main Layout */
     .main {
-        background-color: #f8f9fa;
+        background-color: #ffffff;
+        max-width: 1400px;
+        margin: 0 auto;
     }
-    .stButton>button {
-        background-color: #c6982c;
+    
+    /* Header */
+    .library-header {
+        background: #c99a2c;
         color: white;
-        font-weight: bold;
-        border-radius: 5px;
-        border: none;
-        padding: 0.5rem 2rem;
+        padding: 1.5rem 2rem;
+        margin: -1rem -1rem 2rem -1rem;
+        border-bottom: 3px solid #2c5282;
     }
-    .stButton>button:hover {
-        background-color: #b08825;
-    }
-    .book-card {
-        background-color: white;
-        padding: 1.5rem;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        margin-bottom: 1rem;
-        border-left: 4px solid #c6982c;
-    }
-    .book-title {
-        color: #192f59;
-        font-size: 1.3rem;
-        font-weight: bold;
-        margin-bottom: 0.5rem;
-    }
-    .book-author {
-        color: #545454;
-        font-size: 1.1rem;
-        margin-bottom: 0.5rem;
-    }
-    .book-summary {
-        color: #666;
-        line-height: 1.6;
-        margin-top: 0.5rem;
-    }
-    .book-links {
-        margin-top: 1rem;
-    }
-    .book-links a {
-        background-color: #f0f0f0;
-        padding: 0.3rem 0.8rem;
-        border-radius: 5px;
-        text-decoration: none;
-        color: #192f59;
-        margin-right: 0.5rem;
-        display: inline-block;
-        margin-top: 0.3rem;
-    }
-    .book-links a:hover {
-        background-color: #e0e0e0;
-    }
-    .header-banner {
-        background: linear-gradient(135deg, #192f59 0%, #c6982c 100%);
-        padding: 2rem;
-        border-radius: 10px;
-        color: white;
-        text-align: center;
-        margin-bottom: 2rem;
-    }
-    /* Style radio buttons to look like tabs */
-    div[data-testid="stHorizontalBlock"] > div[data-testid="column"] > div[data-testid="stRadio"] > div {
-        background-color: white;
-        padding: 0.5rem;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    div[data-testid="stRadio"] > label {
+    
+    .library-title {
+        font-size: 1.8rem;
         font-weight: 600;
-        color: #192f59;
+        margin: 0;
+        color: white;
+    }
+    
+    .library-subtitle {
+        font-size: 0.95rem;
+        color: white;
+        margin-top: 0.25rem;
+    }
+    
+    /* Search Box */
+    .stTextInput > div > div > input {
+        border: 2px solid #e2e8f0;
+        border-radius: 4px;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+    }
+    
+    .stTextInput > div > div > input:focus {
+        border-color: #2c5282;
+        box-shadow: 0 0 0 1px #2c5282;
+    }
+    
+    /* Buttons */
+    .stButton > button {
+        background-color: #2c5282;
+        color: white;
+        font-weight: 500;
+        border-radius: 4px;
+        border: none;
+        padding: 0.75rem 2rem;
+        font-size: 1rem;
+        transition: all 0.2s;
+    }
+    
+    .stButton > button:hover {
+        background-color: #1a365d;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    /* Book Cards */
+    .book-card {
+        background-color: #ffffff;
+        padding: 1.5rem;
+        border-radius: 4px;
+        border: 1px solid #e2e8f0;
+        margin-bottom: 1rem;
+        transition: all 0.2s;
+    }
+    
+    .book-card:hover {
+        border-color: #cbd5e0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    
+    .book-title {
+        color: #1a365d;
+        font-size: 1.15rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        line-height: 1.4;
+    }
+    
+    .book-title a {
+        color: #1a365d;
+        text-decoration: none;
+    }
+    
+    .book-title a:hover {
+        color: #2c5282;
+        text-decoration: underline;
+    }
+    
+    .book-author {
+        color: #4a5568;
+        font-size: 0.95rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .book-metadata {
+        color: #718096;
+        font-size: 0.875rem;
+        margin-bottom: 0.75rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .book-metadata-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+    
+    .book-description {
+        color: #2d3748;
+        line-height: 1.6;
+        margin-top: 0.75rem;
+        font-size: 0.95rem;
+    }
+    
+    .relevance-badge {
+        display: inline-block;
+        background-color: #edf2f7;
+        color: #2d3748;
+        padding: 0.25rem 0.75rem;
+        border-radius: 12px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+    
+    .view-button {
+        display: inline-block;
+        background-color: lightgray;
+        color: white;
+        padding: 0.5rem 1.25rem;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-top: 0.75rem;
+        transition: all 0.2s;
+    }
+    
+    .view-button:hover {
+        background-color: #1a365d;
+        text-decoration: none;
+        color: white;
+    }
+    
+    /* Info Boxes */
+    .stAlert {
+        border-radius: 4px;
+        border-left: 4px solid #2c5282;
+    }
+    
+    /* Metrics */
+    div[data-testid="stMetricValue"] {
+        font-size: 1.5rem;
+        color: #1a365d;
+    }
+    
+    /* Tabs/Radio */
+    div[data-testid="stRadio"] > div {
+        background-color: #f7fafc;
+        padding: 0.5rem;
+        border-radius: 4px;
+        border: 1px solid #e2e8f0;
+    }
+    
+    div[data-testid="stRadio"] > div > label {
+        font-weight: 500;
+        color: #2d3748;
+    }
+    
+    /* Chat Messages */
+    .stChatMessage {
+        background-color: #f7fafc;
+        border-radius: 4px;
+        padding: 1rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    /* Dividers */
+    hr {
+        margin: 2rem 0;
+        border: none;
+        border-top: 1px solid #e2e8f0;
+    }
+    
+    /* Welcome Section */
+    .welcome-section {
+        background-color: #f7fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 4px;
+        padding: 2rem;
+        text-align: center;
+        margin: 2rem 0;
+    }
+    
+    .welcome-title {
+        color: #1a365d;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+    
+    .welcome-text {
+        color: #4a5568;
+        font-size: 1rem;
+        line-height: 1.6;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -167,10 +306,10 @@ GOOGLE_API_KEY = "your-api-key-here"
             self.executor.shutdown(wait=True)
         
     
-    def search_books(self, query, n_results=5, prioritize_publications=True):
-        """Search for books using semantic search with hierarchical chunking awareness - optimized for speed"""
-        # Reduced initial results for faster processing
-        initial_results = min(n_results * 2, 15)  # Cap at 15 for speed
+    def search_books(self, query, n_results=10, prioritize_publications=True):
+        """Search for books using semantic search with title matching boost"""
+        # Get more results initially for better re-ranking
+        initial_results = min(n_results * 4, 50)
 
         results = self.collection.query(
             query_texts=[query],
@@ -181,27 +320,90 @@ GOOGLE_API_KEY = "your-api-key-here"
         if not results['documents'][0]:
             return results
 
-        # Process results based on hierarchical structure - optimized
+        # Process results based on hierarchical structure
         processed_results = self._process_hierarchical_results(
             results, query, n_results, prioritize_publications
         )
+        
+        # Apply title matching boost for better exact matches
+        boosted_results = self._boost_title_matches(processed_results, query)
 
-        return processed_results
+        return boosted_results
+    
+    def _boost_title_matches(self, results, query):
+        """Boost results where title closely matches the query"""
+        if not results['documents'][0]:
+            return results
+        
+        query_lower = query.lower().strip()
+        query_words = set(query_lower.split())
+        
+        # Create list of results with boosted scores
+        boosted_items = []
+        for doc, meta, dist in zip(results['documents'][0], results['metadatas'][0], results['distances'][0]):
+            title = meta.get('title', '').lower()
+            author = meta.get('author', '').lower()
+            keywords = meta.get('keyword', '').lower()
+            
+            # Calculate title match score
+            title_words = set(title.split())
+            keyword_words = set(keywords.split(',')) if keywords else set()
+            
+            # Exact title match (highest boost)
+            if query_lower in title:
+                boost = -0.3  # Reduce distance significantly
+            # Title starts with query
+            elif title.startswith(query_lower):
+                boost = -0.25
+            # High word overlap in title
+            elif len(query_words & title_words) >= len(query_words) * 0.8:
+                boost = -0.2
+            # Partial word overlap in title
+            elif len(query_words & title_words) >= len(query_words) * 0.5:
+                boost = -0.1
+            # Author name match
+            elif query_lower in author:
+                boost = -0.15
+            # Keyword match
+            elif any(query_lower in kw.strip() for kw in keyword_words):
+                boost = -0.05
+            else:
+                boost = 0
+            
+            boosted_items.append({
+                'document': doc,
+                'metadata': meta,
+                'distance': max(0, dist + boost),  # Apply boost (lower distance = better match)
+                'original_distance': dist
+            })
+        
+        # Sort by boosted distance
+        boosted_items.sort(key=lambda x: x['distance'])
+        
+        # Reformat to match original structure
+        return {
+            'documents': [[item['document'] for item in boosted_items]],
+            'metadatas': [[item['metadata'] for item in boosted_items]],
+            'distances': [[item['distance'] for item in boosted_items]]
+        }
 
     def _process_hierarchical_results(self, results, query, max_results, prioritize_publications):
-        """Process and prioritize hierarchical search results"""
+        """Process and prioritize hierarchical search results - excluding keyword summaries"""
         documents = results['documents'][0]
         metadatas = results['metadatas'][0]
         distances = results['distances'][0]
 
-        # Group results by chunk type and level
-        level_1_chunks = []  # Keyword summaries
+        # Group results by chunk type and level (excluding keyword summaries)
         level_2_chunks = []  # Author summaries
         level_3_chunks = []  # Individual books
 
         for doc, meta, dist in zip(documents, metadatas, distances):
             chunk_level = meta.get('chunk_level', 3)
             chunk_type = meta.get('chunk_type', 'publication_detail')
+
+            # Skip keyword summaries (level 1)
+            if chunk_level == 1 or chunk_type == 'keyword_summary':
+                continue
 
             result_item = {
                 'document': doc,
@@ -211,9 +413,7 @@ GOOGLE_API_KEY = "your-api-key-here"
                 'chunk_type': chunk_type
             }
 
-            if chunk_level == 1:
-                level_1_chunks.append(result_item)
-            elif chunk_level == 2:
+            if chunk_level == 2:
                 level_2_chunks.append(result_item)
             else:
                 level_3_chunks.append(result_item)
@@ -222,11 +422,7 @@ GOOGLE_API_KEY = "your-api-key-here"
         final_results = []
 
         if prioritize_publications:
-            # Strategy: Show some keyword context, then author info, then books
-            # Take top 1 keyword summary if available
-            if level_1_chunks:
-                final_results.extend(sorted(level_1_chunks, key=lambda x: x['distance'])[:1])
-
+            # Strategy: Show author info, then books (no keyword summaries)
             # Take top 2 author summaries if available
             if level_2_chunks:
                 final_results.extend(sorted(level_2_chunks, key=lambda x: x['distance'])[:2])
@@ -478,230 +674,124 @@ Keep the response conversational, helpful, and focused on the user's specific re
 
 
 def display_book_card(book_data, rank, query, rag_system, summary_cache=None):
-    """Display a single book card with AI-generated summary, adapted for hierarchical chunks"""
+    """Display a professional library book card with relevance score"""
     metadata = book_data['metadata']
     document = book_data['document']
     distance = book_data['distance']
     chunk_type = metadata.get('chunk_type', 'publication_detail')
-    chunk_level = metadata.get('chunk_level', 3)
+    
+    # Calculate relevance score (0-100%)
+    relevance_score = int((1 - distance) * 100)
 
-    # Use cached summary if available, otherwise generate
-    if summary_cache and rank <= len(summary_cache):
-        summary = summary_cache[rank - 1]
-    else:
-        # Fallback summary based on chunk type
-        if chunk_type == 'keyword_summary':
-            keyword = metadata.get('keyword', 'Academic Subject')
-            summary = f"This collection covers '{keyword}' with resources relevant to '{query}', providing valuable academic materials for research and study."
-        elif chunk_type == 'author_summary':
-            author = metadata.get('author', 'NU Faculty')
-            keyword = metadata.get('keyword', 'Academic Subject')
-            summary = f"{author} is a researcher specializing in {keyword}, with publications relevant to '{query}' that contribute to academic discourse."
+    # Get description directly from metadata (CSV data)
+    description = metadata.get('description', '')
+    
+    # If no description in metadata, extract from document
+    if not description and 'Description:' in document:
+        try:
+            desc_line = [line for line in document.split('\n') if line.startswith('Description:')][0]
+            description = desc_line.replace('Description:', '').strip()
+        except:
+            description = "No description available."
+    
+    # Fallback if still no description
+    if not description:
+        if chunk_type == 'author_summary':
+            description = f"Publications by {metadata.get('author', 'this author')}."
         else:
-            author = metadata.get('author', 'NU Faculty')
-            keyword = metadata.get('keyword', 'Academic Subject')
-            summary = f"A library book by {author} in '{keyword}', providing valuable insights for '{query}' research."
+            description = "Book information available at the library."
 
-    # Determine card styling and content based on chunk type
-    if chunk_type == 'keyword_summary':
-        card_icon = "🏷️"
-        card_title = f"Keyword Overview: {metadata.get('keyword', 'Academic Subject')}"
-        card_subtitle = "📊 Book Collection Overview"
-        button_text = "🔍 Explore Books in this Subject"
-        keyword_search = metadata.get('keyword', '').replace(' ', '+')
-        button_url = f"https://elibrary.nu.edu.om/cgi-bin/koha/opac-search.pl?q={keyword_search}"
-    elif chunk_type == 'author_summary':
-        card_icon = "👤"
-        card_title = f"Author Profile: {metadata.get('author', 'NU Faculty')}"
-        card_subtitle = f"📚 {metadata.get('book_count', 0)} Books"
-        button_text = "🔍 View Author Books"
-        author_name = metadata.get('author', '').replace(' ', '+')
-        button_url = f"https://elibrary.nu.edu.om/cgi-bin/koha/opac-search.pl?q=au:%22{author_name}%22"
+    # Determine card content based on chunk type
+    if chunk_type == 'author_summary':
+        card_title = metadata.get('author', 'NU Faculty')
+        card_type = "Author Profile"
+        author = metadata.get('author', '')
+        button_url = f"https://elibrary.nu.edu.om/cgi-bin/koha/opac-search.pl?q=au:%22{author.replace(' ', '+')}%22"
     else:  # book_detail
-        card_icon = "📖"
         card_title = metadata.get('title', 'Library Book')
-
-        # Extract author from metadata or document
-        author = metadata.get('author', 'NU Faculty')
-        if author == 'NU Faculty' and 'Author:' in document:
+        card_type = "Book"
+        author = metadata.get('author', 'Unknown Author')
+        if author == 'Unknown Author' and 'Author:' in document:
             try:
                 author_line = [line for line in document.split('\n') if line.startswith('Author:')][0]
                 author = author_line.replace('Author:', '').strip()
             except:
                 pass
-        card_subtitle = f"👤 {author}"
-        button_text = "🔍 View Full Details on NU eLibrary"
         button_url = metadata.get('link', 'https://elibrary.nu.edu.om/')
 
-    # Summary already generated and cached above
+    # Build metadata items
+    metadata_items = []
+    
+    if chunk_type == 'book_detail':
+        if metadata.get('publication_year'):
+            metadata_items.append(f"📅 {metadata['publication_year']}")
+        if metadata.get('publisher'):
+            metadata_items.append(f"📚 {metadata['publisher']}")
+        if metadata.get('rating'):
+            metadata_items.append(f"⭐ {metadata['rating']}/5.0")
+        if metadata.get('pages'):
+            metadata_items.append(f"📄 {metadata['pages']} pages")
+        if metadata.get('language'):
+            metadata_items.append(f"🌐 {metadata['language']}")
+    
+    metadata_html = ' • '.join(metadata_items) if metadata_items else ''
 
-    # Create complete book card with all content in a single HTML block
+    # Create professional book card (without relevance badge)
     st.markdown(f"""
     <div class="book-card">
-        <div style="display: flex; justify-content: space-between; align-items: start;">
-            <div style="flex: 1;">
-                <div class="book-title">
-                    <a href="{button_url}" target="_blank" style="color: #192f59; text-decoration: none;">
-                        #{rank}. {card_title} 🔗
-                    </a>
-                </div>
-                <div class="book-author">
-                    {card_subtitle}
-                </div>
-                <div style="margin-top: 0.3rem; font-size: 0.85rem; color: #666;">
-                    📊 Chunk Level {chunk_level} • {chunk_type.replace('_', ' ').title()}
-                </div>
-            </div>
+        <div class="book-title">
+            <a href="{button_url}" target="_blank">{rank}. {card_title}</a>
         </div>
-        <div class="book-summary">
-            <strong>🤖 AI Summary:</strong><br>
-            {summary}
-        </div>
-        <div style="margin-top: 0.8rem;">
-            <a href="{button_url}" target="_blank" style="background-color: #c6982c; color: white; padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none; font-weight: bold; display: inline-block;">
-                {button_text}
-            </a>
-        </div>
+        <div class="book-author">{author}</div>
+        {f'<div class="book-metadata">{metadata_html}</div>' if metadata_html else ''}
+        <div class="book-description">{description}</div>
+        <a href="{button_url}" target="_blank" class="view-button">View in Library Catalog →</a>
     </div>
     """, unsafe_allow_html=True)
 
-    # Display additional info based on chunk type
-    if chunk_type == 'keyword_summary':
-        col1, col2 = st.columns([2, 1])
-        with col1:
-            if metadata.get('total_books'):
-                st.markdown(f"**📚 Total Books:** {metadata['total_books']}")
-            if metadata.get('total_authors'):
-                st.markdown(f"**👥 Total Authors:** {metadata['total_authors']}")
-
-        with col2:
-            if metadata.get('college_stats'):
-                st.markdown("**🏛️ Colleges:**")
-                college_stats = eval(metadata['college_stats'])
-                for college, count in college_stats.items():
-                    st.markdown(f"  • {college}: {count}")
-
-    elif chunk_type == 'author_summary':
-        col1, col2 = st.columns([2, 1])
-        with col1:
-            if metadata.get('keyword'):
-                st.markdown(f"**🏷️ Keyword:** {metadata['keyword']}")
-            if metadata.get('book_count'):
-                st.markdown(f"**📚 Books:** {metadata['book_count']}")
-            if metadata.get('has_research_links') == 'True':
-                st.markdown("**🔗 Research Networks:** Available")
-
-        with col2:
-            if metadata.get('colleges'):
-                st.markdown("**🏛️ Colleges:**")
-                for college in eval(metadata['colleges']):
-                    st.markdown(f"  • {college}")
-
-    else:  # book_detail
-        col1, col2 = st.columns([2, 1])
-
-        with col1:
-            if metadata.get('keyword'):
-                st.markdown(f"**🏷️ Keyword:** {metadata['keyword']}")
-            if metadata.get('description'):
-                # Extract availability from description
-                description = metadata['description']
-                if 'Not for loan' in description or 'Reference only' in description:
-                    st.markdown("**📍 Availability:** Reference only")
-                elif 'Available for loan' in description:
-                    st.markdown("**📍 Availability:** Available for loan")
-                elif 'Checked out' in description:
-                    st.markdown("**📍 Availability:** Currently checked out")
-                elif 'In transit' in description:
-                    st.markdown("**📍 Availability:** In transit")
-
-        with col2:
-            # Extract college info from description
-            description = metadata.get('description', '')
-            if 'College of Engineering' in description:
-                st.markdown("**🏛️ College:** College of Engineering")
-            elif 'College of Medicine and Health Sciences' in description:
-                st.markdown("**🏛️ College:** College of Medicine and Health Sciences")
-            elif 'College of Pharmacy' in description:
-                st.markdown("**🏛️ College:** College of Pharmacy")
-            elif 'International Maritime College Oman' in description:
-                st.markdown("**🏛️ College:** International Maritime College Oman")
-
 
 def keyword_search_tab(rag_system):
-    """Keyword search interface"""
-    # Main search interface
-    st.markdown("### 🔎 Search Books")
+    """Professional search interface"""
+    # Search interface
+    st.markdown("### Search Library Catalog")
     
     # Search input
-    col1, col2 = st.columns([4, 1])
+    col1, col2 = st.columns([5, 1])
     with col1:
         query = st.text_input(
-            "Enter your search query:",
-            placeholder="e.g., research methodology, qualitative research, machine learning, data analysis...",
-            label_visibility="collapsed",
+            "Search Query",
+            placeholder="Enter keywords (e.g., research methodology, qualitative research, dissertation writing...)",
             key="keyword_search_input"
         )
     with col2:
-        search_button = st.button("🔍 Search", use_container_width=True, key="keyword_search_button")
+        st.markdown("<br>", unsafe_allow_html=True)
+        search_button = st.button("Search", use_container_width=True, key="keyword_search_button", type="primary")
     
     # Perform search
     if query and (search_button or query):
         st.markdown("---")
         
         with st.spinner("🔍 Searching through hierarchical knowledge base..."):
-            # Search for books with hierarchical chunking - optimized for speed
-            results = rag_system.search_books(query, n_results=4)  # Reduced to 4 for faster loading
+            # Search for books with hierarchical chunking - show all relevant results
+            results = rag_system.search_books(query, n_results=50)  # Show all relevant results
 
             if results['documents'][0]:
-                # Generate AI introduction
-                st.markdown("### 🤖 AI Analysis")
-                with st.spinner("Generating analysis..."):
-                    intro = rag_system.generate_recommendations(query, results)
-
-                st.info(intro)
-
-                st.markdown("---")
-                st.markdown("### 📚 Intelligent Results (Keyword-Based Search)")
-
                 # Count chunk types for summary
                 chunk_types = {}
                 for metadata in results['metadatas'][0]:
                     chunk_type = metadata.get('chunk_type', 'publication_detail')
                     chunk_types[chunk_type] = chunk_types.get(chunk_type, 0) + 1
+                
+                total_results = len(results['documents'][0])
+                books = chunk_types.get('book_detail', 0)
+                author_profiles = chunk_types.get('author_summary', 0)
+                
+                # Results header
+                st.markdown(f"### Search Results ({total_results} items)")
+                st.markdown(f"**{books}** books and **{author_profiles}** author profiles found, sorted by relevance")
+                st.markdown("---")
 
-                # Display chunk type summary
-                summary_parts = []
-                if chunk_types.get('keyword_summary'):
-                    summary_parts.append(f"🏷️ {chunk_types['keyword_summary']} Keyword Overview")
-                if chunk_types.get('author_summary'):
-                    summary_parts.append(f"👤 {chunk_types['author_summary']} Author Profile")
-                if chunk_types.get('book_detail'):
-                    summary_parts.append(f"📖 {chunk_types['book_detail']} Book")
-
-                if summary_parts:
-                    st.markdown(f"**Result Mix:** {' • '.join(summary_parts)}")
-                    st.markdown("---")
-
-                # Generate all summaries in batch for faster processing
-                st.markdown("⚡ Generating summaries...")
-                progress_bar = st.progress(0)
-
-                # Prepare items for batch processing
-                summary_items = []
-                for i in range(len(results['documents'][0])):
-                    document = results['documents'][0][i]
-                    metadata = results['metadatas'][0][i]
-                    chunk_type = metadata.get('chunk_type', 'publication_detail')
-                    summary_items.append((document, chunk_type))
-
-                # Generate all summaries in parallel
-                summaries = rag_system.generate_batch_summaries(summary_items, query)
-
-                progress_bar.progress(100)
-                progress_bar.empty()
-
-                # Display results with cached summaries
+                # Display results directly (no AI summary generation needed)
                 for i in range(len(results['documents'][0])):
                     book_data = {
                         'document': results['documents'][0][i],
@@ -709,40 +799,60 @@ def keyword_search_tab(rag_system):
                         'distance': results['distances'][0][i]
                     }
 
-                    display_book_card(book_data, i + 1, query, rag_system, summaries)
+                    display_book_card(book_data, i + 1, query, rag_system)
 
-                # Footer with hierarchical stats
+                # End of results
                 st.markdown("---")
-                total_results = len(results['documents'][0])
-                keyword_overviews = chunk_types.get('keyword_summary', 0)
-                author_profiles = chunk_types.get('author_summary', 0)
-                books = chunk_types.get('book_detail', 0)
-
-                st.success(f"✅ Found {total_results} intelligently ranked results for your query")
-                st.info("💡 **Hierarchical Search Benefits:** Keyword overviews provide subject context, author profiles show research focus, and individual books offer specific details.")
-                st.info("🚀 **Concise Analysis:** This version provides focused, one-paragraph AI-generated summaries for quick reference.")
+                st.info("📚 All results are sorted by relevance to your search query, with the most relevant items appearing first.")
 
             else:
-                st.warning("😕 No books found matching your query. Try different keywords!")
+                st.warning("No results found. Please try different search terms.")
     
     elif not query:
-        # Welcome message
-        st.markdown("---")
+        # Professional welcome message
         st.markdown("""
-        <div style="text-align: center; padding: 3rem 1rem;">
-            <h3 style="color: #192f59;">👋 Welcome to NU eLibrary Intelligent Search!</h3>
-            <p style="color: #666; font-size: 1.1rem; margin-top: 1rem;">
-                Discover library books and resources with our AI-powered keyword-based search system.
-            </p>
-            <p style="color: #666;">
-                Our intelligent system provides multi-level results: keyword overviews for subject context,
-                author profiles for research focus, and individual books for specific details.
-            </p>
-            <p style="color: #c6982c; font-weight: bold; margin-top: 1rem;">
-                ⚡ Enhanced with AI-powered concise analysis for quick reference
-            </p>
+        <div class="welcome-section">
+            <div class="welcome-title">Welcome to the Research Methodology Collection</div>
+            <div class="welcome-text">
+                <p>Search our curated collection of 41 research methodology books using keywords or topics.</p>
+                <p>Results are ranked by relevance and include detailed book information, ratings, and direct links to the library catalog.</p>
+                <p style="margin-top: 1rem; color: #2c5282; font-weight: 500;">Enter a search term above to begin exploring our collection.</p>
+            </div>
         </div>
         """, unsafe_allow_html=True)
+
+
+def sort_by_rating(books_data, sort_type):
+    """Sort books by rating (high, low, or average)"""
+    # Filter books that have ratings
+    books_with_ratings = []
+    books_without_ratings = []
+    
+    for book in books_data:
+        rating = book['metadata'].get('rating', '')
+        try:
+            rating_value = float(rating) if rating else None
+            if rating_value is not None:
+                books_with_ratings.append((book, rating_value))
+            else:
+                books_without_ratings.append(book)
+        except (ValueError, TypeError):
+            books_without_ratings.append(book)
+    
+    # Sort based on type
+    if sort_type == 'high':
+        # Sort by rating descending (highest first)
+        books_with_ratings.sort(key=lambda x: x[1], reverse=True)
+    elif sort_type == 'low':
+        # Sort by rating ascending (lowest first)
+        books_with_ratings.sort(key=lambda x: x[1])
+    elif sort_type == 'average':
+        # Sort by distance to 3.5 (average rating)
+        books_with_ratings.sort(key=lambda x: abs(x[1] - 3.5))
+    
+    # Combine sorted books with ratings + books without ratings at the end
+    sorted_books = [book for book, rating in books_with_ratings] + books_without_ratings
+    return sorted_books
 
 
 def chatbot_tab(rag_system):
@@ -771,13 +881,12 @@ def chatbot_tab(rag_system):
         <div style="background-color: #e8f4f8; padding: 1.5rem; border-radius: 10px; margin-bottom: 1rem;">
             <h4 style="color: #192f59; margin-top: 0;">👋 Hello! I'm your AI Library Assistant</h4>
             <p style="color: #666; margin-bottom: 0.5rem;">
-                I can help you discover books and resources through natural conversation. Ask me questions like:
+                I can help you discover research methodology books through natural conversation. Ask me questions like:
             </p>
             <ul style="color: #666;">
-                <li>"I need books about machine learning for beginners"</li>
-                <li>"What resources do you have on healthcare management?"</li>
-                <li>"Can you recommend books about research methodology?"</li>
-                <li>"I'm looking for engineering textbooks"</li>
+                <li>"I need books about qualitative research methods"</li>
+                <li>"What resources do you have on dissertation writing?"</li>
+                <li>"Show me highly rated books about research design"</li>
             </ul>
         </div>
         """, unsafe_allow_html=True)
@@ -792,7 +901,15 @@ def chatbot_tab(rag_system):
                 # Display book recommendations if available (only for completed messages)
                 if message["role"] == "assistant" and "books" in message:
                     st.markdown("---")
-                    st.markdown("**📚 Recommended Books:**")
+                    rating_sort = message.get("rating_sort")
+                    if rating_sort == 'high':
+                        st.markdown("**📚 Recommended Books (Sorted by Highest Rating):**")
+                    elif rating_sort == 'low':
+                        st.markdown("**📚 Recommended Books (Sorted by Lowest Rating):**")
+                    elif rating_sort == 'average':
+                        st.markdown("**📚 Recommended Books (Sorted by Average Rating):**")
+                    else:
+                        st.markdown(f"**📚 Recommended Books ({len(message['books'])} results):**")
                     for book in message["books"]:
                         display_chat_book_card(book)
     
@@ -807,8 +924,18 @@ def chatbot_tab(rag_system):
             with st.spinner("🤔 Thinking and searching for books..."):
                 user_input = st.session_state.current_user_input
                 
-                # Search for relevant books
-                results = rag_system.search_books(user_input, n_results=3)
+                # Detect rating-based queries
+                user_input_lower = user_input.lower()
+                rating_sort = None
+                if any(word in user_input_lower for word in ['highly rated', 'high rated', 'best rated', 'top rated', 'highest rated']):
+                    rating_sort = 'high'
+                elif any(word in user_input_lower for word in ['lowly rated', 'low rated', 'poorly rated', 'worst rated', 'lowest rated']):
+                    rating_sort = 'low'
+                elif any(word in user_input_lower for word in ['average rated', 'medium rated', 'moderately rated']):
+                    rating_sort = 'average'
+                
+                # Search for relevant books - show all recommendations (no limit)
+                results = rag_system.search_books(user_input, n_results=50)
                 
                 if results['documents'][0]:
                     # Generate conversational response
@@ -823,6 +950,10 @@ def chatbot_tab(rag_system):
                         }
                         books_data.append(book_data)
                     
+                    # Apply rating-based sorting if requested
+                    if rating_sort:
+                        books_data = sort_by_rating(books_data, rating_sort)
+                    
                     # Add messages to chat history
                     st.session_state.chat_history.append({
                         "role": "user",
@@ -832,7 +963,8 @@ def chatbot_tab(rag_system):
                     st.session_state.chat_history.append({
                         "role": "assistant",
                         "content": response_text,
-                        "books": books_data
+                        "books": books_data,
+                        "rating_sort": rating_sort
                     })
                     
                     # Update context for next conversation
@@ -885,162 +1017,204 @@ def generate_chat_response(rag_system, user_question, search_results, chat_conte
             context_str += f"User: {exchange['user']}\n"
             context_str += f"Assistant: {exchange['assistant']}\n\n"
     
-    # Prepare search results context with book titles
-    books_context = "Available books:\n\n"
-    book_titles = []
+    # Prepare search results context with book titles and details
+    books_context = "Available books in the library:\n\n"
+    book_details = []
     for i, (doc, meta) in enumerate(zip(
         search_results['documents'][0],
         search_results['metadatas'][0]
     )):
-        # Extract title for reference
+        # Extract key information
         title = meta.get('title', '')
+        author = meta.get('author', '')
+        chunk_type = meta.get('chunk_type', 'book_detail')
+        
         if title and title != 'Library Book':
-            book_titles.append(title)
-        chunk_type = meta.get('chunk_type', 'publication_detail')
-        books_context += f"{i+1}. Type: {chunk_type}\n{doc[:300]}...\n\n"
+            book_info = f"'{title}'"
+            if author:
+                book_info += f" by {author}"
+            book_details.append(book_info)
+        
+        # Add document excerpt for context
+        books_context += f"{i+1}. {doc[:400]}...\n\n"
     
-    prompt = f"""You are a friendly AI librarian assistant for National University eLibrary.
+    prompt = f"""You are an expert AI librarian assistant for National University eLibrary, designed to help researchers find the perfect books for their needs.
 
 {context_str}
 
-Current question: {user_question}
+User's current question: "{user_question}"
 
 {books_context}
 
-Provide a warm, conversational response (3-4 sentences) that:
-1. Acknowledges the user's question naturally
-2. **IMPORTANTLY**: Mention specific book titles by name when available
-3. Explains why these resources would be helpful for their research
-4. Encourages further questions if needed
+Your task: Provide a warm, intelligent, and conversational response (4-5 sentences) that:
 
-Keep the tone friendly and helpful, like talking to a colleague. Use specific book titles in your response."""
+1. **Acknowledge their need**: Start by showing you understand what they're looking for
+2. **Recommend specific books**: Mention 2-3 specific book titles by name from the search results
+3. **Explain the value**: Briefly explain why each recommended book would be valuable for their research or study
+4. **Provide guidance**: Suggest how they might use these resources effectively
+5. **Invite follow-up**: End with an encouraging note that invites further questions
+
+Style guidelines:
+- Be conversational and warm, like a knowledgeable colleague helping a friend
+- Use natural language, not robotic or overly formal
+- Show enthusiasm about the books you're recommending
+- Be specific about book titles and authors when mentioning them
+- Keep it concise but informative
+
+Remember: You're not just listing books, you're helping someone on their research journey."""
     
     try:
         response = rag_system.model.generate_content(prompt)
         return response.text
     except Exception as e:
-        # Fallback response with book titles
+        # Enhanced fallback response with book details
         num_books = len(search_results['documents'][0])
-        fallback = f"I found {num_books} relevant resources for your question about '{user_question}'. "
         
-        if book_titles:
-            fallback += f"Key recommendations include: {', '.join(book_titles[:2])}. "
+        if book_details:
+            if len(book_details) == 1:
+                fallback = f"Great question! I found {book_details[0]} which looks perfect for what you're researching. "
+            elif len(book_details) == 2:
+                fallback = f"I've found some excellent resources for you! Check out {book_details[0]} and {book_details[1]}. "
+            else:
+                fallback = f"Perfect timing! I have several great recommendations including {book_details[0]}, {book_details[1]}, and {book_details[2]}. "
+            
+            fallback += "These books offer comprehensive coverage of your topic with practical insights and research-backed content. "
+        else:
+            fallback = f"I found {num_books} relevant resources that match your interest in '{user_question}'. "
         
-        fallback += "These books cover various aspects of your topic and should provide valuable insights for your research. Feel free to ask if you need more specific recommendations!"
+        fallback += "Would you like me to help you narrow down to specific aspects of this topic, or do you have any other questions?"
         return fallback
 
 
 def display_chat_book_card(book_data):
-    """Display a compact book card for chat interface with prominent book title"""
+    """Display a detailed book card for chat interface (similar to search results)"""
     metadata = book_data['metadata']
     document = book_data['document']
     chunk_type = metadata.get('chunk_type', 'publication_detail')
     
-    # Determine card content based on chunk type
-    if chunk_type == 'keyword_summary':
-        title = f"📚 Keyword Collection: {metadata.get('keyword', 'Academic Collection')}"
-        subtitle = f"{metadata.get('total_books', 0)} books available"
-        keyword_search = metadata.get('keyword', '').replace(' ', '+')
-        link = f"https://elibrary.nu.edu.om/cgi-bin/koha/opac-search.pl?q={keyword_search}"
-        book_detail = ""
-    elif chunk_type == 'author_summary':
-        author = metadata.get('author', 'Author')
-        title = f"👤 Author: {author}"
-        subtitle = f"{metadata.get('book_count', 0)} publications • {metadata.get('keyword', 'Various topics')}"
-        author_name = author.replace(' ', '+')
-        link = f"https://elibrary.nu.edu.om/cgi-bin/koha/opac-search.pl?q=au:%22{author_name}%22"
-        book_detail = ""
-    else:  # book_detail
-        # Extract book title from metadata or document
-        book_title = metadata.get('title', '')
-        if not book_title or book_title == 'Library Book':
-            # Try to extract from document
-            if 'Title:' in document:
-                try:
-                    title_line = [line for line in document.split('\n') if line.startswith('Title:')][0]
-                    book_title = title_line.replace('Title:', '').strip()
-                except:
-                    book_title = 'Library Book'
-        
-        # Extract author
-        author = metadata.get('author', '')
-        if not author or author == 'NU Faculty':
-            if 'Author:' in document:
-                try:
-                    author_line = [line for line in document.split('\n') if line.startswith('Author:')][0]
-                    author = author_line.replace('Author:', '').strip()
-                except:
-                    author = 'Unknown Author'
-        
-        title = f"📖 {book_title}"
-        subtitle = f"by {author}"
-        link = metadata.get('link', 'https://elibrary.nu.edu.om/')
-        
-        # Add keyword if available
-        keyword = metadata.get('keyword', '')
-        if keyword:
-            book_detail = f"<div style='color: #888; font-size: 0.85rem; margin-top: 0.3rem;'>🏷️ Subject: {keyword}</div>"
-        else:
-            book_detail = ""
+    # Get description and context from metadata
+    description = metadata.get('description', '')
+    context = metadata.get('context', '')
     
+    # If no description in metadata, extract from document
+    if not description and 'Description:' in document:
+        try:
+            desc_line = [line for line in document.split('\n') if line.startswith('Description:')][0]
+            description = desc_line.replace('Description:', '').strip()
+        except:
+            description = ""
+    
+    # Extract context from document if not in metadata
+    if not context and 'Research Context:' in document:
+        try:
+            context_line = [line for line in document.split('\n') if line.startswith('Research Context:')][0]
+            context = context_line.replace('Research Context:', '').strip()
+        except:
+            pass
+    
+    # Combine description and context
+    full_description = description
+    if context and context != description:
+        full_description = f"{description}<br><br><strong>Target Audience:</strong> {context}"
+    
+    # Determine card content based on chunk type
+    if chunk_type == 'author_summary':
+        card_title = metadata.get('author', 'NU Faculty')
+        author = metadata.get('author', '')
+        button_url = f"https://elibrary.nu.edu.om/cgi-bin/koha/opac-search.pl?q=au:%22{author.replace(' ', '+')}%22"
+        if not full_description:
+            full_description = f"Publications by {author}."
+    else:  # book_detail
+        card_title = metadata.get('title', 'Library Book')
+        author = metadata.get('author', 'Unknown Author')
+        if author == 'Unknown Author' and 'Author:' in document:
+            try:
+                author_line = [line for line in document.split('\n') if line.startswith('Author:')][0]
+                author = author_line.replace('Author:', '').strip()
+            except:
+                pass
+        button_url = metadata.get('link', 'https://elibrary.nu.edu.om/')
+        if not full_description:
+            full_description = "Book information available at the library."
+    
+    # Build metadata items
+    metadata_items = []
+    if chunk_type == 'book_detail':
+        if metadata.get('publication_year'):
+            metadata_items.append(f"📅 {metadata['publication_year']}")
+        if metadata.get('publisher'):
+            metadata_items.append(f"📚 {metadata['publisher']}")
+        if metadata.get('rating'):
+            metadata_items.append(f"⭐ {metadata['rating']}/5.0")
+        if metadata.get('pages'):
+            metadata_items.append(f"📄 {metadata['pages']} pages")
+        if metadata.get('language'):
+            metadata_items.append(f"🌐 {metadata['language']}")
+    
+    metadata_html = ' • '.join(metadata_items) if metadata_items else ''
+    
+    # Create professional book card (similar to search results)
     st.markdown(f"""
-    <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; margin-bottom: 0.8rem; border-left: 3px solid #c6982c;">
-        <div style="font-weight: bold; color: #192f59; margin-bottom: 0.3rem; font-size: 1.05rem;">
-            <a href="{link}" target="_blank" style="color: #192f59; text-decoration: none;">
-                {title} 🔗
-            </a>
+    <div class="book-card">
+        <div class="book-title">
+            <a href="{button_url}" target="_blank">{card_title}</a>
         </div>
-        <div style="color: #666; font-size: 0.9rem;">
-            {subtitle}
-        </div>
-        {book_detail}
+        <div class="book-author">{author}</div>
+        {f'<div class="book-metadata">{metadata_html}</div>' if metadata_html else ''}
+        <div class="book-description">{full_description}</div>
+        <a href="{button_url}" target="_blank" class="view-button">View in Library Catalog →</a>
     </div>
     """, unsafe_allow_html=True)
 
 
 def main():
     """Main application"""
-    # Header
+    # Professional Library Header
     st.markdown("""
-        <div class="header-banner">
-            <h1>🧠 NU eLibrary Intelligent Search</h1>
-            <p style="margin-top: 0.5rem; font-size: 1.1rem; opacity: 0.9;">AI-Powered Book Discovery & Conversational Assistant</p>
+        <div class="library-header">
+            <div class="library-title">National University eLibrary</div>
+            <div class="library-subtitle">Research Methodology Collection - Intelligent Search System</div>
         </div>
     """, unsafe_allow_html=True)
     
     # Initialize RAG system
     if 'rag_system' not in st.session_state:
-        with st.spinner("🔧 Initializing AI system..."):
+        with st.spinner("Initializing search system..."):
             st.session_state.rag_system = LibraryRAG()
     
     rag_system = st.session_state.rag_system
     
-    # Tab selection using radio buttons (better state management than st.tabs)
-    st.markdown("---")
+    # Tab selection
+    st.markdown("<br>", unsafe_allow_html=True)
     selected_tab = st.radio(
-        "Choose Interface:",
-        options=["🔍 Keyword Search", "💬 AI Chatbot"],
+        "Select Search Mode:",
+        options=["🔍 Search", "💬 AI Assistant"],
         horizontal=True,
-        key="main_tab_selector",
-        label_visibility="collapsed"
+        key="main_tab_selector"
     )
     
-    st.markdown("---")
+    st.markdown("<br>", unsafe_allow_html=True)
     
     # Display selected tab content
-    if selected_tab == "🔍 Keyword Search":
+    if selected_tab == "🔍 Search":
         keyword_search_tab(rag_system)
     else:  # AI Chatbot
         chatbot_tab(rag_system)
     
-    # Footer
+    # Professional Footer
+    st.markdown("<br><br>", unsafe_allow_html=True)
     st.markdown("---")
     st.markdown("""
-        <div style="text-align: center; padding: 1rem; color: #666; font-size: 0.9rem;">
-            <strong>National University eLibrary Search</strong><br>
-            Copyright © 2025, National University Libraries<br>
-            Azaiba, Bousher, Muscat, Sultanate of Oman<br>
-            <a href="https://elibrary.nu.edu.om/" target="_blank">Visit Official Website</a>
+        <div style="text-align: center; padding: 1.5rem; color: #718096; font-size: 0.875rem; background-color: #f7fafc; border-radius: 4px; margin-top: 2rem;">
+            <div style="font-weight: 600; color: #2d3748; margin-bottom: 0.5rem;">National University eLibrary</div>
+            <div>Azaiba, Bousher, Muscat, Sultanate of Oman</div>
+            <div style="margin-top: 0.5rem;">
+                <a href="https://elibrary.nu.edu.om/" target="_blank" style="color: #2c5282; text-decoration: none;">Visit Official Website</a> | 
+                <a href="https://www.nu.edu.om/" target="_blank" style="color: #2c5282; text-decoration: none;">National University</a>
+            </div>
+            <div style="margin-top: 0.75rem; font-size: 0.8rem; color: #a0aec0;">
+                © 2025 National University Libraries. All rights reserved.
+            </div>
         </div>
     """, unsafe_allow_html=True)
 

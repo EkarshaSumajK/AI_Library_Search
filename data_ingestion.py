@@ -409,13 +409,33 @@ class DataIngestion:
         try:
             with open(csv_file_path, 'r', encoding='utf-8') as csvfile:
                 reader = csv.DictReader(csvfile)
-                books = list(reader)
+                raw_books = list(reader)
 
-            print(f"   Found {len(books)} book records")
+            print(f"   Found {len(raw_books)} book records")
 
-            if not books:
+            if not raw_books:
                 print("⚠️  No books found in CSV file")
                 return 0
+
+            # Normalize column names to match expected format
+            books = []
+            for raw_book in raw_books:
+                normalized_book = {
+                    'title': raw_book.get('Title', ''),
+                    'author': raw_book.get('Author(s)', ''),
+                    'description': raw_book.get('Description', ''),
+                    'publisher': raw_book.get('Publisher', ''),
+                    'link': raw_book.get('Link', ''),
+                    'rating': raw_book.get('Rating', ''),
+                    'keyword': raw_book.get('Keywords', ''),
+                    'isbn': raw_book.get('ISBN', ''),
+                    'publication_year': raw_book.get('Publication Year', ''),
+                    'pages': raw_book.get('Pages', ''),
+                    'language': raw_book.get('Language', ''),
+                    'format': raw_book.get('Format', ''),
+                    'context': raw_book.get('Context', '')
+                }
+                books.append(normalized_book)
 
             # Group books by keyword for hierarchical chunking
             keyword_groups = {}
@@ -516,32 +536,22 @@ class DataIngestion:
         authors = set(book.get('author', 'Unknown') for book in books if book.get('author'))
 
         # Aggregate statistics
-        availability_stats = {}
-        college_stats = {}
+        publisher_stats = {}
+        year_stats = {}
+        language_stats = {}
 
         for book in books:
-            # Extract availability info
-            description = book.get('description', '')
-            if 'Not for loan' in description or 'Reference only' in description:
-                availability = 'Reference only'
-            elif 'Available for loan' in description:
-                availability = 'Available for loan'
-            else:
-                availability = 'Unknown'
-            availability_stats[availability] = availability_stats.get(availability, 0) + 1
+            # Extract publisher info
+            publisher = book.get('publisher', 'Unknown')
+            publisher_stats[publisher] = publisher_stats.get(publisher, 0) + 1
 
-            # Extract college info from description
-            if 'College of Engineering' in description:
-                college = 'College of Engineering'
-            elif 'College of Medicine and Health Sciences' in description:
-                college = 'College of Medicine and Health Sciences'
-            elif 'College of Pharmacy' in description:
-                college = 'College of Pharmacy'
-            elif 'International Maritime College Oman' in description:
-                college = 'International Maritime College Oman'
-            else:
-                college = 'Unknown'
-            college_stats[college] = college_stats.get(college, 0) + 1
+            # Extract publication year
+            year = book.get('publication_year', 'Unknown')
+            year_stats[year] = year_stats.get(year, 0) + 1
+
+            # Extract language
+            language = book.get('language', 'Unknown')
+            language_stats[language] = language_stats.get(language, 0) + 1
 
         # Create comprehensive summary text
         summary_parts = [
@@ -549,15 +559,20 @@ class DataIngestion:
             f"Total Books: {total_books}",
             f"Total Authors: {len(authors)}",
             "",
-            "COLLEGE DISTRIBUTION:"
+            "LANGUAGE DISTRIBUTION:"
         ]
 
-        for college, count in college_stats.items():
-            summary_parts.append(f"  - {college}: {count} books")
+        for language, count in sorted(language_stats.items(), key=lambda x: x[1], reverse=True)[:5]:
+            summary_parts.append(f"  - {language}: {count} books")
 
-        summary_parts.extend(["", "AVAILABILITY:"])
-        for availability, count in availability_stats.items():
-            summary_parts.append(f"  - {availability}: {count} books")
+        summary_parts.extend(["", "TOP PUBLISHERS:"])
+        for publisher, count in sorted(publisher_stats.items(), key=lambda x: x[1], reverse=True)[:5]:
+            summary_parts.append(f"  - {publisher}: {count} books")
+
+        summary_parts.extend(["", "PUBLICATION YEARS:"])
+        for year, count in sorted(year_stats.items(), key=lambda x: x[0], reverse=True)[:10]:
+            if year != 'Unknown':
+                summary_parts.append(f"  - {year}: {count} books")
 
         summary_parts.extend(["", "TOP AUTHORS:"])
         author_counts = {}
@@ -579,8 +594,8 @@ class DataIngestion:
                 'total_books': total_books,
                 'total_authors': len(authors),
                 'keyword': keyword,
-                'college_stats': college_stats,
-                'availability_stats': availability_stats
+                'publisher_stats': str(publisher_stats),
+                'language_stats': str(language_stats)
             }
         }
 
@@ -589,43 +604,39 @@ class DataIngestion:
         book_count = len(books)
 
         # Aggregate author statistics
-        colleges = set()
-        availability_types = set()
+        publishers = set()
+        years = set()
 
         for book in books:
-            description = book.get('description', '')
+            # Extract publisher
+            publisher = book.get('publisher', '')
+            if publisher:
+                publishers.add(publisher)
 
-            # Extract college
-            if 'College of Engineering' in description:
-                colleges.add('College of Engineering')
-            elif 'College of Medicine and Health Sciences' in description:
-                colleges.add('College of Medicine and Health Sciences')
-            elif 'College of Pharmacy' in description:
-                colleges.add('College of Pharmacy')
-            elif 'International Maritime College Oman' in description:
-                colleges.add('International Maritime College Oman')
-
-            # Extract availability
-            if 'Not for loan' in description or 'Reference only' in description:
-                availability_types.add('Reference only')
-            elif 'Available for loan' in description:
-                availability_types.add('Available for loan')
+            # Extract publication year
+            year = book.get('publication_year', '')
+            if year:
+                years.add(year)
 
         # Create author summary
         summary_parts = [
             f"AUTHOR PROFILE: {author}",
             f"Keyword: {keyword}",
             f"Total Books: {book_count}",
-            f"Colleges: {', '.join(colleges) if colleges else 'Unknown'}",
-            f"Availability Types: {', '.join(availability_types) if availability_types else 'Unknown'}",
+            f"Publishers: {', '.join(list(publishers)[:3]) if publishers else 'Various'}",
+            f"Publication Years: {', '.join(sorted(list(years), reverse=True)[:5]) if years else 'Various'}",
             "",
             "BOOK TITLES:"
         ]
 
-        # List book titles
+        # List book titles with years
         for i, book in enumerate(books[:10], 1):  # Limit to first 10 for chunk size
             title = book.get('title', 'Unknown Title')
-            summary_parts.append(f"  {i}. {title}")
+            year = book.get('publication_year', '')
+            if year:
+                summary_parts.append(f"  {i}. {title} ({year})")
+            else:
+                summary_parts.append(f"  {i}. {title}")
 
         if len(books) > 10:
             summary_parts.append(f"  ... and {len(books) - 10} more books")
@@ -640,8 +651,8 @@ class DataIngestion:
                 'author': author,
                 'keyword': keyword,
                 'book_count': book_count,
-                'colleges': list(colleges),
-                'availability_types': list(availability_types)
+                'publishers': str(list(publishers)),
+                'years': str(list(years))
             }
         }
 
@@ -653,26 +664,23 @@ class DataIngestion:
         # Add structured context
         context_parts = [
             f"BOOK DETAIL",
-            f"Keyword: {keyword}",
+            f"Keywords: {keyword}",
             f"Author: {book.get('author', 'Unknown')}",
             f"Title: {book.get('title', 'Unknown Title')}",
         ]
 
-        # Extract additional info from description
-        description = book.get('description', '')
-        if 'College of Engineering' in description:
-            context_parts.append("College: College of Engineering")
-        elif 'College of Medicine and Health Sciences' in description:
-            context_parts.append("College: College of Medicine and Health Sciences")
-        elif 'College of Pharmacy' in description:
-            context_parts.append("College: College of Pharmacy")
-        elif 'International Maritime College Oman' in description:
-            context_parts.append("College: International Maritime College Oman")
+        # Add publisher and year if available
+        publisher = book.get('publisher', '')
+        if publisher:
+            context_parts.append(f"Publisher: {publisher}")
 
-        if 'Not for loan' in description or 'Reference only' in description:
-            context_parts.append("Availability: Reference only")
-        elif 'Available for loan' in description:
-            context_parts.append("Availability: Available for loan")
+        year = book.get('publication_year', '')
+        if year:
+            context_parts.append(f"Year: {year}")
+
+        rating = book.get('rating', '')
+        if rating:
+            context_parts.append(f"Rating: {rating}/5.0")
 
         context_parts.extend(["", "CONTENT:"])
         context_text = "\n".join(context_parts)
@@ -689,7 +697,10 @@ class DataIngestion:
                 'title': book.get('title'),
                 'keyword': keyword,
                 'link': book.get('link'),
-                'description': book.get('description')
+                'description': book.get('description'),
+                'publisher': book.get('publisher'),
+                'publication_year': book.get('publication_year'),
+                'rating': book.get('rating')
             }
         }
 
@@ -708,63 +719,64 @@ class DataIngestion:
         text_parts = []
 
         # Start with core book information
+        if 'title' in book_info and book_info['title']:
+            text_parts.append(f"Title: {book_info['title']}")
+
         if 'author' in book_info and book_info['author']:
             author = book_info['author']
             text_parts.append(f"Author: {author}")
             # Add author variations for better searchability
             text_parts.append(f"Dr {author} Professor {author} faculty {author}")
 
-        if 'title' in book_info and book_info['title']:
-            text_parts.append(f"Title: {book_info['title']}")
-
         if 'keyword' in book_info and book_info['keyword']:
-            text_parts.append(f"Keyword: {book_info['keyword']}")
+            keywords = book_info['keyword']
+            text_parts.append(f"Keywords: {keywords}")
+            # Add individual keywords for better searchability
+            keyword_list = [k.strip() for k in keywords.split(',')]
+            for kw in keyword_list:
+                text_parts.append(f"Subject: {kw}")
 
-        # Extract and add college information from description
-        description = book_info.get('description', '')
-        if 'College of Engineering' in description:
-            text_parts.append("College: College of Engineering")
-            text_parts.append("NU College of Engineering")
-        elif 'College of Medicine and Health Sciences' in description:
-            text_parts.append("College: College of Medicine and Health Sciences")
-            text_parts.append("NU College of Medicine and Health Sciences")
-        elif 'College of Pharmacy' in description:
-            text_parts.append("College: College of Pharmacy")
-            text_parts.append("NU College of Pharmacy")
-        elif 'International Maritime College Oman' in description:
-            text_parts.append("College: International Maritime College Oman")
-            text_parts.append("NU International Maritime College Oman")
+        # Add publisher information
+        if 'publisher' in book_info and book_info['publisher']:
+            text_parts.append(f"Publisher: {book_info['publisher']}")
 
-        # Extract availability information
-        if 'Not for loan' in description or 'Reference only' in description:
-            text_parts.append("Availability: Reference only - Not for loan")
-        elif 'Available for loan' in description:
-            text_parts.append("Availability: Available for loan")
-        elif 'Checked out' in description:
-            text_parts.append("Availability: Currently checked out")
-        elif 'In transit' in description:
-            text_parts.append("Availability: In transit")
+        # Add publication year
+        if 'publication_year' in book_info and book_info['publication_year']:
+            text_parts.append(f"Publication Year: {book_info['publication_year']}")
 
-        # Extract publication and edition info
-        if 'Publication:' in description:
-            pub_match = re.search(r'Publication:\s*([^|]+)', description)
-            if pub_match:
-                text_parts.append(f"Publication: {pub_match.group(1).strip()}")
+        # Add ISBN
+        if 'isbn' in book_info and book_info['isbn']:
+            text_parts.append(f"ISBN: {book_info['isbn']}")
 
-        if 'Edition:' in description:
-            edition_match = re.search(r'Edition:\s*([^|]+)', description)
-            if edition_match:
-                text_parts.append(f"Edition: {edition_match.group(1).strip()}")
+        # Add pages
+        if 'pages' in book_info and book_info['pages']:
+            text_parts.append(f"Pages: {book_info['pages']}")
+
+        # Add language
+        if 'language' in book_info and book_info['language']:
+            text_parts.append(f"Language: {book_info['language']}")
+
+        # Add format
+        if 'format' in book_info and book_info['format']:
+            text_parts.append(f"Format: {book_info['format']}")
+
+        # Add rating
+        if 'rating' in book_info and book_info['rating']:
+            text_parts.append(f"Rating: {book_info['rating']}")
 
         # Add link information
         if 'link' in book_info and book_info['link']:
             text_parts.append(f"Library Link: {book_info['link']}")
 
-        # Add raw description for additional context
+        # Add description
+        description = book_info.get('description', '')
         if description:
-            # Clean up description for better embedding
-            clean_desc = description.replace('|', ' ').replace('  ', ' ')
-            text_parts.append(f"Description: {clean_desc}")
+            text_parts.append(f"Description: {description}")
+
+        # Add context (research context)
+        context = book_info.get('context', '')
+        if context:
+            text_parts.append(f"Research Context: {context}")
 
         # Join all parts with newlines for better readability and embedding
         return "\n".join(text_parts)
@@ -1052,7 +1064,7 @@ def main():
     print("   (Hierarchical chunking: Keyword → Author → Book levels)")
 
     # Path to CSV data file (relative to current directory)
-    csv_file = "./library_books_test_progress_408.csv"
+    csv_file = "./new_data.csv"
 
     # Initialize and load data
     ingestion = DataIngestion()
