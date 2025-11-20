@@ -866,18 +866,7 @@ def keyword_search_tab(rag_system):
             else:
                 st.warning("No results found. Please try different search terms.")
     
-    elif not query:
-        # Professional welcome message
-        st.markdown("""
-        <div class="welcome-section">
-            <div class="welcome-title">Welcome to the Research Methodology Collection</div>
-            <div class="welcome-text">
-                <p>Search our curated collection of 41 research methodology books using keywords or topics.</p>
-                <p>Results are ranked by relevance and include detailed book information, ratings, and direct links to the library catalog.</p>
-                <p style="margin-top: 1rem; color: #2c5282; font-weight: 500;">Enter a search term above to begin exploring our collection.</p>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+
 
 
 def sort_by_rating(books_data, sort_type):
