@@ -433,7 +433,8 @@ class DataIngestion:
                     'pages': raw_book.get('Pages', ''),
                     'language': raw_book.get('Language', ''),
                     'format': raw_book.get('Format', ''),
-                    'context': raw_book.get('Context', '')
+                    'context': raw_book.get('Context', ''),
+                    'college': raw_book.get('College', '')
                 }
                 books.append(normalized_book)
 
@@ -700,7 +701,8 @@ class DataIngestion:
                 'description': book.get('description'),
                 'publisher': book.get('publisher'),
                 'publication_year': book.get('publication_year'),
-                'rating': book.get('rating')
+                'rating': book.get('rating'),
+                'college': book.get('college')
             }
         }
 
